@@ -21,15 +21,16 @@
     <div class="box">
       <label for="">Select Town:</label>
       <div class="selectedTown">
-        <select id="myTown" onchange="selectTown()" name="townName" class="townName" >
+        <select  onchange="selectTown(this)" name="townName" class="townName" >
           <option value="" >AllTown</option>
           <option value="CA ">Cape Town</option>
           <option value="CJ">Paarl</option>
           <option value="CAW">George</option>
           <option value="CL">Stellenbosh</option>
         </select>
-        <div></div>
-     <a href="/reset"><button type="reset" class="clearBtn">clear</button></a> 
+        <div>  
+        </div>
+     <a href="/reset"><button type="button" class="clearBtn">clear</button></a> 
       </div>
     </div>
     <div class="box fitbox">
@@ -49,8 +50,9 @@
 
 
 <script>
-function selectTown(){
-    var x = document.getElementById("myTown").value;
-    document.getElementById("demo").innerHTML = "You selected: " + x;
+function selectTown(townTag){
+    var tag = townTag.value;
+      console.log(tag);
+    location.href = '/filterbyTown/' + tag;
 }
 </script>

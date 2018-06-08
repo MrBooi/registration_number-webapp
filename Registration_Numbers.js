@@ -51,7 +51,7 @@ module.exports=function(storedRegNumbers) {
 
         return regNumber.startsWith(filterTown)
       });
-      location.hash = filterTown;
+   
       return townFilter;
     }
     // get selected Town
@@ -60,8 +60,8 @@ module.exports=function(storedRegNumbers) {
     }
    
     function clear(){
-     
-      return RegNumberMap ={}  ;
+     let clear= RegNumberMap ={} ;
+      return clear ;
     }
 
     // returning all functions inside a factory function

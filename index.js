@@ -54,18 +54,21 @@ app.post("/reg_number", function (req, res) {
     res.render('reg_number', {reg_numberList:registration_numbers.getMap()});
 });
 
-app.get('/filterbyTown',function(req,res){
-    let city =req.body.townName;
-    let reg_numberList=registration_numbers.filterTowns(city);
-    console.log(reg_numberList);
-  res.send(reg_numberList);
- res.render('reg_number');
-});
-
 app.get('/reset',function(req,res){
+  
    registration_numbers.clear();
 res.redirect("/");
 });
+
+app.get('/filterbyTown/:tag',function(req,res){
+    let city =req.params.tag;
+    let reg_numberList=registration_numbers.filterTowns(city);
+
+  
+   // res.render('reg_number');
+});
+
+
 
 
 
