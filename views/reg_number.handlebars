@@ -1,0 +1,56 @@
+<div class="container">
+<header>
+  <h1>Registration Numbers App</h1>
+  <p>using javascript with Handlebars</p>
+</header>
+
+<div class="row">
+  <div class="twelve columns">
+    <div class="heading">
+      <h5>This side is for a static HTML</h5>
+    </div>
+    <form action="reg_number" method="post">
+    <div class="box">
+      <label for="">Registration Number:</label>
+      <input type="text" name="enteredReg" class="EnterReg" placeholder="Enter registration Number" required title="please make sure you enter registration number">
+      <button type="submit" class="AddReg">Add</button>
+      <div class="messageDisplay">
+
+      </div>
+    </div>
+    <div class="box">
+      <label for="">Select Town:</label>
+      <div class="selectedTown">
+        <select id="myTown" onchange="selectTown()" name="townName" class="townName" >
+          <option value="" >AllTown</option>
+          <option value="CA ">Cape Town</option>
+          <option value="CJ">Paarl</option>
+          <option value="CAW">George</option>
+          <option value="CL">Stellenbosh</option>
+        </select>
+        <div></div>
+     <a href="/reset"><button type="reset" class="clearBtn">clear</button></a> 
+      </div>
+    </div>
+    <div class="box fitbox">
+      <div class="displayReg">
+        <ul class="displayList" id="demo">
+          {{#each reg_numberList}}
+              {{this}}
+              {{/each}}
+        </ul>
+      </div>
+    </div>
+     </form>
+  </div>
+</div>
+</div>
+
+
+
+<script>
+function selectTown(){
+    var x = document.getElementById("myTown").value;
+    document.getElementById("demo").innerHTML = "You selected: " + x;
+}
+</script>
