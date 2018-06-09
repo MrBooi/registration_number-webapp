@@ -11,9 +11,9 @@ module.exports=function(storedRegNumbers) {
   }
 
 
-  function setReg(value) {
+ async function setReg(value) {
     if (RegNumberMap[value] === undefined) {
-      if (value !== "" && value.length > 0 && value.startsWith("CA") || value.startsWith("CL") || value.startsWith("CAW") || value.startsWith("CJ")) {
+      if (value !== "" && value.length > 0 && value.startsWith("CA ") || value.startsWith("CL") || value.startsWith("CAW") || value.startsWith("CJ")) {
         regNumber = value;
         RegNumberMap[regNumber] = 0;
 
@@ -24,27 +24,20 @@ module.exports=function(storedRegNumbers) {
     }
   }
 
-
     // getmap function
-    function getRegistrationMap(storedRegNumbers) {
+   async function getRegistrationMap(storedRegNumbers) {
       return Object.keys(RegNumberMap);
     }
     // get registration number
-    function getRegistationNumber() {
+   async function getRegistationNumber() {
       return regNumber;
     }
-    //   creaate an Element
-    function createItems(reg) {
-      var li = document.createElement("li");
-      li.className = 'regPlate';
-      li.textContent = reg;
-      displayReg.appendChild(li);
-    }
+ 
     // filterby function
-    function filterBy(filterTown) {
+  async  function filterBy(filterTown) {
 
       var regNums = Object.keys(RegNumberMap);
-      if (filterTown === '') {
+      if (filterTown === 'All') {
         return regNums;
       }
       var townFilter = regNums.filter(function(regNumber) {
@@ -55,11 +48,11 @@ module.exports=function(storedRegNumbers) {
       return townFilter;
     }
     // get selected Town
-    function getSelectedTownList() {
+   async function getSelectedTownList() {
       return tempTown;
     }
    
-    function clear(){
+  async  function clear(){
      let clear= RegNumberMap ={} ;
       return clear ;
     }
@@ -70,7 +63,6 @@ module.exports=function(storedRegNumbers) {
       getMap: getRegistrationMap,
       getRegNumber: getRegistationNumber,
       filterTowns: filterBy,
-      createLi: createItems,
       getListSelectedTown: getSelectedTownList,
       clear
     }

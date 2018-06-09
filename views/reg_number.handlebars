@@ -9,22 +9,22 @@
     <div class="heading">
       <h5>This side is for a static HTML</h5>
     </div>
-    <form action="reg_number" method="post">
+    <form action="/reg_number" method="post">
     <div class="box">
       <label for="">Registration Number:</label>
       <input type="text" name="enteredReg" class="EnterReg" placeholder="Enter registration Number" required title="please make sure you enter registration number">
       <button type="submit" class="AddReg">Add</button>
       <div class="messageDisplay">
-
       </div>
     </div>
     <div class="box">
       <label for="">Select Town:</label>
       <div class="selectedTown">
-        <select  onchange="selectTown(this)" name="townName" class="townName" >
+        <select  onchange="selectTown()" name="townName" class="townName" >
           <option value="" >AllTown</option>
-          <option value="CA ">Cape Town</option>
-          <option value="CJ">Paarl</option>
+          <option value="All" >AllTown</option>
+          <option value="CA " >Cape Town</option>
+          <option value="CJ"  >Paarl</option>
           <option value="CAW">George</option>
           <option value="CL">Stellenbosh</option>
         </select>
@@ -32,27 +32,33 @@
         </div>
      <a href="/reset"><button type="button" class="clearBtn">clear</button></a> 
       </div>
+        </form>
     </div>
-    <div class="box fitbox">
-      <div class="displayReg">
-        <ul class="displayList" id="demo">
+     
+    <div class=" fitbox">
+      {{!-- <div class="displayReg displayList" > --}}
+        {{!-- <ul class="displayList" id="demo"> --}}
           {{#each reg_numberList}}
+          <li>
               {{this}}
+              {{filterbyTown}}
+              </li>
               {{/each}}
-        </ul>
-      </div>
+        {{!-- </ul> --}}
+      {{!-- </div> --}}
     </div>
-     </form>
+    
   </div>
 </div>
+
 </div>
 
 
 
 <script>
-function selectTown(townTag){
-    var tag = townTag.value;
-      console.log(tag);
-    location.href = '/filterbyTown/' + tag;
+function selectTown(){
+    var tag = document.querySelector(".townName");
+    var select ="selected";
+    location.href = '/filter/' + tag.value;
 }
 </script>

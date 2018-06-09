@@ -16,7 +16,7 @@ if (process.env.DATABASE_URL) {
     useSSL = true;
 }
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://coder:coder123@localhost:5432/greetings'
+const connectionString = process.env.DATABASE_URL || 'postgresql://coder:coder123@localhost:5432/registrationNumbers'
 
 //  const pool = new Pool({
 //   connectionString,
@@ -54,28 +54,23 @@ app.post("/reg_number", function (req, res) {
     res.render('reg_number', {reg_numberList:registration_numbers.getMap()});
 });
 
+
+
+app.get('/filter/:tag',function(req,res){
+    let city =req.params.tag;
+    let filterbyTown=registration_numbers.filterTowns(city);
+
+  res.render('reg_number',{reg_numberList:filterbyTown});
+});
+
+
 app.get('/reset',function(req,res){
   
-   registration_numbers.clear();
-res.redirect("/");
-});
-
-app.get('/filterbyTown/:tag',function(req,res){
-    let city =req.params.tag;
-    let reg_numberList=registration_numbers.filterTowns(city);
-
-  
-   // res.render('reg_number');
-});
-
-
-
+    registration_numbers.clear();
+ res.redirect("/");
+ });
 
 
 app.listen(PORT, function (err) {
     console.log('App starting on port', PORT)
 });
-
-function getTownname(){
- 
-}
