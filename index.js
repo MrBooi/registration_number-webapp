@@ -76,8 +76,8 @@ app.post("/reg_number", async function (req, res, next) {
 app.get('/filter/:tag', async function (req, res, next) {
     try {
         let city = req.params.tag;
-        let filterbyTown = registration_numbers.filterTowns(city);
-        res.render('reg_number', { reg_numberList: filterbyTown });
+        let reglist = await registration_numbers.filterTowns(city);
+        res.render('reg_number', {reglist});
     } catch (err) {
         next(err);
     }
@@ -86,7 +86,7 @@ app.get('/filter/:tag', async function (req, res, next) {
 
 app.get('/reset', async function (req, res, next) {
     try {
-        registration_numbers.clear();
+       await  registration_numbers.clear();
         res.redirect("/");
     } catch (err) {
         next(err)

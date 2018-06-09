@@ -4,10 +4,8 @@ module.exports = function (pool) {
   var RegNumberMap = {};
 
 
-
-
   async function setReg(value) {
-    // if (value !== "" && value.length > 0 && value.startsWith("CA ") || value.startsWith("CL") || value.startsWith("CAW") || value.startsWith("CJ")) {
+    // if (value !== "" && value.length > 0 && value.startsWith("CA") || value.startsWith("CL") || value.startsWith("CAW") || value.startsWith("CJ")) {
     //   return false;
     // }
     var result = await pool.query('SELECT * FROM registrationNo WHERE reg_number=$1', [value]);
@@ -35,17 +33,21 @@ module.exports = function (pool) {
 
   // filterby function
   async function filterBy(filterTown) {
-
-    var regNums = Object.keys(RegNumberMap);
+   
     if (filterTown === 'All') {
-      return regNums;
+      let  townFilter = await pool.query('SELECT  reg_number FROM registrationNo ');
+      return townFilter.rows;
     }
-    var townFilter = regNums.filter(function (regNumber) {
 
-      return regNumber.startsWith(filterTown)
-    });
+    let regNums = await pool.query('SELECT id FROM towns WHERE town_tag=$1',[filterTown]);
+    console.log(regNums.rows[0].id);
+    let townFilter = await pool.query('SELECT reg_number FROM registrationNo WHERE town=$1',[regNums.rows[0].id])
+    console.log(townFilter);
+    
+   
+  
 
-    return townFilter;
+    return townFilter.rows;
   }
   // get selected Town
   async function getSelectedTownList() {
@@ -53,7 +55,7 @@ module.exports = function (pool) {
   }
 
   async function clear() {
-    let clear = RegNumberMap = {};
+    let clear =  await pool.query('DELETE  FROM registrationNo');
     return clear;
   }
 
