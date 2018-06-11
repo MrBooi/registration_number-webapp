@@ -90,7 +90,7 @@ header p {
   font-size: 10px;
   font-size: 1.3rem;
   line-height: 2rem;
-  color: orange;
+  color:#74ff29;
 }
 
 
@@ -117,7 +117,7 @@ ul {
   border: 1px solid #ddd;
   background-color: #ddd;
   width: 96%;
-  height:20%; 
+ min-height:20%; 
    margin-bottom: 2em; 
   margin-left: 1rem;
   margin-right: 1rem;

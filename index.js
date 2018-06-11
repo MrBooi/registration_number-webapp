@@ -1,11 +1,21 @@
 "use strict";
 const express = require('express');
 const exphbs = require('express-handlebars');
+const flash = require('express-flash');
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const Registration = require('./Registration_Numbers');
 
-
 const app = express();
+
+app.use(session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: true
+}));
+
+app.use(flash());
+
 var PORT = process.env.PORT || 3000;
 
 const pg = require('pg');
@@ -35,9 +45,9 @@ app.use(bodyParser.json());
 
 app.engine('handlebars', exphbs({
     defaultLayout: 'main',
-    helpers:{
-        selectedTag: function(){
-            if(this.selected){
+    helpers: {
+        selectedTag: function () {
+            if (this.selected) {
                 return 'selected';
             }
         }
@@ -49,8 +59,7 @@ app.get("/", async function (req, res, next) {
     try {
         let reglist = await registration_numbers.getMap();
         let filterbyTown = await registration_numbers.getTags();
-          console.log(filterbyTown);
-        res.render('reg_number', { reglist,filterbyTown});
+        res.render('reg_number', { reglist, filterbyTown });
     } catch (err) {
         next(err);
     }
@@ -60,10 +69,13 @@ app.get("/", async function (req, res, next) {
 app.get("/reg_number/:numberPlate", async function (req, res, next) {
     try {
         let numberPlate = req.params.numberPlate;
-        await registration_numbers.setRegistration(numberPlate);
+        await registration_numbers.setRegistration(numberPlate)
         let reglist = await registration_numbers.getMap();
+        req.flash('info', "registration is succesfully added");
         res.render('reg_number', { reglist });
+
     } catch (err) {
+        req.flash('info', "incorrect registration number");
         next(err);
     }
 });
@@ -71,11 +83,13 @@ app.get("/reg_number/:numberPlate", async function (req, res, next) {
 app.post("/reg_number", async function (req, res, next) {
     try {
         let numberPlate = req.body.enteredReg;
-        await registration_numbers.setRegistration(numberPlate);
-        let reglist = await registration_numbers.getMap();
-        // res.render('reg_number', { reglist });
+        await registration_numbers.setRegistration(numberPlate)
+        req.flash('info', "registration is succesfully added");
+        await registration_numbers.getMap();
         res.redirect('/');
+
     } catch (err) {
+        req.flash('info', "incorrect registration number");
         next(err);
     }
 });
@@ -87,8 +101,8 @@ app.get('/filter/:tag', async function (req, res, next) {
         let city = req.params.tag;
         let reglist = await registration_numbers.filterTowns(city);
         let filterbyTown = await registration_numbers.getTags(city);
-    
-        res.render('reg_number', {reglist,filterbyTown});
+
+        res.render('reg_number', { reglist, filterbyTown });
     } catch (err) {
         next(err);
     }
@@ -97,7 +111,7 @@ app.get('/filter/:tag', async function (req, res, next) {
 
 app.get('/reset', async function (req, res, next) {
     try {
-       await  registration_numbers.clear();
+        await registration_numbers.clear();
         res.redirect("/");
     } catch (err) {
         next(err)

@@ -1,18 +1,17 @@
 // factory function
 module.exports = function (pool) {
- 
+  var valid_Tags =['All','CA','CL','CJ','CAW'];
   async function setReg(value) {
-    // if (value !== "" && value.length > 0 && value.startsWith("CA") || value.startsWith("CL") || value.startsWith("CAW") || value.startsWith("CJ")) {
-    //   return false;
-    // }
-    var result = await pool.query('SELECT * FROM registrationNo WHERE reg_number=$1', [value]);
-    console.log(result.rowCount)
+    regNumber = value.toUpperCase();
+    let townTag = regNumber.substring(0, 3).trim();
+    console.log(townTag)
+    if (regNumber =="" || !valid_Tags.includes(townTag)) {
+      return false;
+    }
+    var result = await pool.query('SELECT * FROM registrationNo WHERE reg_number=$1', [regNumber]);
     if (result.rowCount === 0) {
-      let townTag = value.substring(0, 3).trim();
-      console.log(townTag);
       let getid= await pool.query('SELECT id FROM towns WHERE town_tag=$1',[townTag]);
-      await pool.query('INSERT INTO registrationNo (reg_number,town) VALUES ($1,$2)',[value,getid.rows[0].id]);
-      
+      await pool.query('INSERT INTO registrationNo (reg_number,town) VALUES ($1,$2)',[regNumber,getid.rows[0].id]);
       return true;
     }
   }
@@ -33,13 +32,11 @@ module.exports = function (pool) {
     return storedTowns.rows;
    }
 
-  
   // filterby function
   async function filterBy(filterTown) {
 
      let townFilter = await pool.query('SELECT reg_number , town FROM registrationNo');
     
-
       if(filterTown !="All"){
 
         let tagFound = await pool.query('SELECT id FROM towns WHERE town_tag=$1',[filterTown]);
@@ -59,10 +56,7 @@ module.exports = function (pool) {
     // console.log(townFilter);
     return townFilter.rows;
   }
-  // get selected Town
-  async function getSelectedTownList() {
-    return tempTown;
-  }
+ 
 
   async function clear() {
     let clear =  await pool.query('DELETE  FROM registrationNo');
@@ -75,7 +69,6 @@ module.exports = function (pool) {
     getMap: getRegistrationMap,
     getTags :createDropDown,
     filterTowns: filterBy,
-    getListSelectedTown: getSelectedTownList,
     clear
   }
 }
