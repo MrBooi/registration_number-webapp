@@ -1,9 +1,6 @@
 // factory function
 module.exports = function (pool) {
-  var regNumber = "";
-  var RegNumberMap = {};
-
-
+ 
   async function setReg(value) {
     // if (value !== "" && value.length > 0 && value.startsWith("CA") || value.startsWith("CL") || value.startsWith("CAW") || value.startsWith("CJ")) {
     //   return false;
@@ -19,18 +16,24 @@ module.exports = function (pool) {
       return true;
     }
   }
-
   // getmap function
   async function getRegistrationMap() {
     let registration = await pool.query('SELECT reg_number fROM registrationNo');
     return registration.rows;
   }
-  // get registration number
-  async function getRegistationNumber() {
+  // create select options
+   async function createDropDown(tag){
+    let storedTowns = await pool.query('SELECT town_name , town_tag FROM towns');
+    for (let i = 0; i < storedTowns.rowCount; i++) {
+      let current = storedTowns.rows[i];
+      if (current.town_tag===tag) {
+        current.selected = true;
+      }
+    }
+    return storedTowns.rows;
+   }
 
-    return regNumber;
-  }
-
+  
   // filterby function
   async function filterBy(filterTown) {
 
@@ -54,8 +57,6 @@ module.exports = function (pool) {
     // console.log(regNums.rows[0].id);
     // let townFilter = await pool.query('SELECT reg_number FROM registrationNo WHERE town=$1',[regNums.rows[0].id])
     // console.log(townFilter);
-    
-  
     return townFilter.rows;
   }
   // get selected Town
@@ -72,7 +73,7 @@ module.exports = function (pool) {
   return {
     setRegistration: setReg,
     getMap: getRegistrationMap,
-    getRegNumber: getRegistationNumber,
+    getTags :createDropDown,
     filterTowns: filterBy,
     getListSelectedTown: getSelectedTownList,
     clear

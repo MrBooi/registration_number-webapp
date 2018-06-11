@@ -34,14 +34,23 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.engine('handlebars', exphbs({
-    defaultLayout: 'main'
+    defaultLayout: 'main',
+    helpers:{
+        selectedTag: function(){
+            if(this.selected){
+                return 'selected';
+            }
+        }
+    }
 }));
 app.set('view engine', 'handlebars');
 
 app.get("/", async function (req, res, next) {
     try {
         let reglist = await registration_numbers.getMap();
-        res.render('reg_number', { reglist });
+        let filterbyTown = await registration_numbers.getTags();
+          console.log(filterbyTown);
+        res.render('reg_number', { reglist,filterbyTown});
     } catch (err) {
         next(err);
     }
@@ -77,7 +86,9 @@ app.get('/filter/:tag', async function (req, res, next) {
     try {
         let city = req.params.tag;
         let reglist = await registration_numbers.filterTowns(city);
-        res.render('reg_number', {reglist});
+        let filterbyTown = await registration_numbers.getTags(city);
+    
+        res.render('reg_number', {reglist,filterbyTown});
     } catch (err) {
         next(err);
     }

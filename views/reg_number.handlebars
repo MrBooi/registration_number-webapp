@@ -21,12 +21,10 @@
       <label for="">Select Town:</label>
       <div class="selectedTown">
         <select  onchange="selectTown()" name="townName" class="townName" >
-          <option value="" >AllTown</option>
           <option value="All" >AllTown</option>
-          <option value="CA " >Cape Town</option>
-          <option value="CJ"  >Paarl</option>
-          <option value="CAW">George</option>
-          <option value="CL">Stellenbosh</option>
+           {{#each filterbyTown}}
+            <option value="{{town_tag}}" {{selectedTag}} >{{town_name}}</option>
+           {{/each}}
         </select>
         <div>  
         </div>
