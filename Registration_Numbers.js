@@ -33,20 +33,29 @@ module.exports = function (pool) {
 
   // filterby function
   async function filterBy(filterTown) {
-   
-    if (filterTown === 'All') {
-      let  townFilter = await pool.query('SELECT  reg_number FROM registrationNo ');
-      return townFilter.rows;
-    }
 
-    let regNums = await pool.query('SELECT id FROM towns WHERE town_tag=$1',[filterTown]);
-    console.log(regNums.rows[0].id);
-    let townFilter = await pool.query('SELECT reg_number FROM registrationNo WHERE town=$1',[regNums.rows[0].id])
-    console.log(townFilter);
+     let townFilter = await pool.query('SELECT reg_number , town FROM registrationNo');
     
-   
-  
 
+      if(filterTown !="All"){
+
+        let tagFound = await pool.query('SELECT id FROM towns WHERE town_tag=$1',[filterTown]);
+        
+        return  townFilter.rows.filter(found =>found.town ==tagFound.rows[0].id);
+      }
+   
+      // old filter
+    // if (filterTown === 'All') {
+    //   let  townFilter = await pool.query('SELECT  reg_number FROM registrationNo ');
+    //   return townFilter.rows;
+    // }
+
+    // let regNums = await pool.query('SELECT id FROM towns WHERE town_tag=$1',[filterTown]);
+    // console.log(regNums.rows[0].id);
+    // let townFilter = await pool.query('SELECT reg_number FROM registrationNo WHERE town=$1',[regNums.rows[0].id])
+    // console.log(townFilter);
+    
+  
     return townFilter.rows;
   }
   // get selected Town
@@ -56,7 +65,7 @@ module.exports = function (pool) {
 
   async function clear() {
     let clear =  await pool.query('DELETE  FROM registrationNo');
-    return clear;
+    return clear.rows;
   }
 
   // returning all functions inside a factory function
