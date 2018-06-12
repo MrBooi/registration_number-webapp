@@ -172,6 +172,14 @@ li{
     margin-left: 0;
   }
 
+  footer {
+    background-color: blue;
+    text-align: center;
+  }
+
+  a{
+    color: white;
+  }
 
 
 
