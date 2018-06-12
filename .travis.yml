@@ -1,11 +1,21 @@
 
-language: node_js
-node_js:  
-        - "8.9.4"
-
-
 services: 
          - postgresql
 
  before_script:
          - psql -c 'create database travis_ci_test;' -U postgres
+          - cp config/database.yml.travis config/database.yml
+
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install language-pack-es
+  - sudo /etc/init.d/postgresql stop
+  - sudo /etc/init.d/postgresql start 9.3
+
+
+  addons:
+  postgresql: '9.4'
+  apt:
+    packages:
+      - postgresql-server-dev-9.4
