@@ -1,6 +1,7 @@
 // factory function
 module.exports = function (pool) {
   var valid_Tags =['All','CA','CL','CJ','CAW'];
+
   async function setReg(value) {
     regNumber = value.toUpperCase();
     let townTag = regNumber.substring(0, 3).trim();
@@ -9,11 +10,14 @@ module.exports = function (pool) {
       return false;
     }
     var result = await pool.query('SELECT * FROM registrationNo WHERE reg_number=$1', [regNumber]);
+    
     if (result.rowCount === 0) {
       let getid= await pool.query('SELECT id FROM towns WHERE town_tag=$1',[townTag]);
       await pool.query('INSERT INTO registrationNo (reg_number,town) VALUES ($1,$2)',[regNumber,getid.rows[0].id]);
       return true;
     }
+
+    
   }
   // getmap function
   async function getRegistrationMap() {

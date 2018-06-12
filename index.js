@@ -69,10 +69,16 @@ app.get("/", async function (req, res, next) {
 app.get("/reg_number/:numberPlate", async function (req, res, next) {
     try {
         let numberPlate = req.params.numberPlate;
-        await registration_numbers.setRegistration(numberPlate)
-        let reglist = await registration_numbers.getMap();
+        let found = await registration_numbers.setRegistration(numberPlate);
+        if (found) {
+            let reglist = await registration_numbers.getMap();
         req.flash('info', "registration is succesfully added");
         res.render('reg_number', { reglist });
+        }else{
+            req.flash('error', "registration numbers already exist");
+        }
+        res.render('reg_number');
+       
 
     } catch (err) {
         // req.flash('info', "incorrect registration number");
@@ -83,16 +89,16 @@ app.get("/reg_number/:numberPlate", async function (req, res, next) {
 app.post("/reg_number", async function (req, res, next) {
     try {
         let numberPlate = req.body.enteredReg;
-       
-        if ( await registration_numbers.setRegistration(numberPlate)) {
-            req.flash('info', "registration is succesfully added");
+         let found = await registration_numbers.setRegistration(numberPlate);
+        if (found) {
             await registration_numbers.getMap();
-            res.redirect('/');
+            req.flash('info', "registration is succesfully added");
+        }else{
+          req.flash('error', "registration numbers already exist");
         }
-     
+        res.redirect('/');
 
     } catch (err) {
-         req.flash('info', "incorrect registration number");
         next(err);
     }
 });

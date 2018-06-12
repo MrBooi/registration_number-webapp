@@ -14,9 +14,14 @@
 
       <input type="text" name="enteredReg" class="EnterReg"  pattern="[A-Z]{2,3}\s\d{3}\W\d{3}"  placeholder="Enter registration Number" required title="please make sure you enter registration number">
       <button type="submit" class="AddReg">Add</button>
-        {{#if messages.info}}
+        {{#if messages.info }}
       <div class="messageDisplay">
         <h6>{{messages.info}}</h6>
+      </div>
+      {{/if}}
+         {{#if messages.error }}
+      <div class="messageDisplay">
+        <h6>{{messages.error}}</h6>
       </div>
       {{/if}}
     </div>
