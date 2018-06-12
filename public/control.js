@@ -1,6 +1,6 @@
 let display = document.querySelector('.messageDisplay');
 if(display !==''){
   setTimeout(() => 
-  display.innerHTML ='',8000
+  display.innerHTML ='',6000
 )
 }

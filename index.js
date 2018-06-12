@@ -75,7 +75,7 @@ app.get("/reg_number/:numberPlate", async function (req, res, next) {
         res.render('reg_number', { reglist });
 
     } catch (err) {
-        req.flash('info', "incorrect registration number");
+        // req.flash('info', "incorrect registration number");
         next(err);
     }
 });
@@ -83,13 +83,16 @@ app.get("/reg_number/:numberPlate", async function (req, res, next) {
 app.post("/reg_number", async function (req, res, next) {
     try {
         let numberPlate = req.body.enteredReg;
-        await registration_numbers.setRegistration(numberPlate)
-        req.flash('info', "registration is succesfully added");
-        await registration_numbers.getMap();
-        res.redirect('/');
+       
+        if ( await registration_numbers.setRegistration(numberPlate)) {
+            req.flash('info', "registration is succesfully added");
+            await registration_numbers.getMap();
+            res.redirect('/');
+        }
+     
 
     } catch (err) {
-        req.flash('info', "incorrect registration number");
+         req.flash('info', "incorrect registration number");
         next(err);
     }
 });
