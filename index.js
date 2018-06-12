@@ -81,7 +81,7 @@ app.get("/reg_number/:numberPlate", async function (req, res, next) {
        
 
     } catch (err) {
-        // req.flash('info', "incorrect registration number");
+    
         next(err);
     }
 });
