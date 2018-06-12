@@ -3,7 +3,7 @@ services:
          - postgresql
 
  before_script:
-         - psql -c 'create database travis_ci_test;' -U postgres
+         
           - cp config/database.yml.travis config/database.yml
 
 
@@ -16,6 +16,4 @@ before_install:
 
   addons:
   postgresql: '9.4'
-  apt:
-    packages:
-      - postgresql-server-dev-9.4
+  
