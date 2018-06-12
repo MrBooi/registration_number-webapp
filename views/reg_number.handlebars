@@ -5,19 +5,22 @@
 
 <div class="row">
   <div class="twelve columns">
+    <div class="heading">
+   
+    </div>
     <form action="/reg_number" method="post">
     <div class="box">
       <label for="">Registration Number:</label>
+
       <input type="text" name="enteredReg" class="EnterReg"  pattern="[A-Z]{2,3}\s\d{3}\W\d{3}"  placeholder="Enter registration Number" required title="please make sure you enter registration number">
       <button type="submit" class="AddReg">Add</button>
         {{#if messages.info}}
       <div class="messageDisplay">
         <h6>{{messages.info}}</h6>
+      </div>
       {{/if}}
     </div>
-     </div>
-        </div>
-
+    
     <div class="box">
       <label for="">Select Town:</label>
       <div class="selectedTown">
