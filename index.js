@@ -71,13 +71,13 @@ app.get("/reg_number/:numberPlate", async function (req, res, next) {
         let numberPlate = req.params.numberPlate;
         let found = await registration_numbers.setRegistration(numberPlate);
         if (found) {
-            let reglist = await registration_numbers.getMap();
+        await registration_numbers.getMap();
         req.flash('info', "registration is succesfully added");
-        res.render('reg_number', { reglist });
+        
         }else{
             req.flash('error', "registration numbers already exist");
         }
-        res.render('reg_number');
+        res.redirect('/');
        
 
     } catch (err) {
