@@ -1,22 +1,20 @@
 
 language: node_js
+env:
+    - DB=postgres://postgres@localhost/registrations
 node_js:  
         - "8.9.4"
         
-services: 
-         - postgresql
-
 before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
-
+  - psql -c 'create database registrations;' -U postgres
+  - node ./test/Registration_Numbers.js -d postgres://postgres@localhost/registrations
 
 addons:
     apt:
     packages:
     - postgresql-server-dev-9.2
 
- env:
-  - DB=postgres://coder:coder123@localhost:5432/registrationNumbers'
-  global:
-  - PGPORT=5433
+
+
+
    
