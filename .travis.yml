@@ -14,3 +14,7 @@ addons:
     apt:
     packages:
     - postgresql-server-dev-9.2
+    
+ env:
+  global:
+  - PGPORT=5433   
