@@ -7,7 +7,8 @@ node_js:
         - "8.9.4"
         
 before_script:
-  - psql -c 'create database registrations;' -U postgres
+  - psql -c 'create database travis;' -U postgres
+   - psql -c 'create database registrations;' -U postgres
   - psql -c '\i registrationdb-script.sql;' -U postgres
   - node ./Registration_Numbers.js -d postpresql://travis@localhost:5432/registrations
 
