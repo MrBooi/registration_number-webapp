@@ -6,8 +6,9 @@ node_js:
         - "8.9.4"
         
 before_script:
+  - psql -c 'create database travis;' -U postgres
   - psql -c 'create database registrations;' -U postgres
-#   - node ./Registration_Numbers.js -d coder://coder123@localhost:5432/registrations
+  - node ./Registration_Numbers.js -d postgresql://travis@localhost:5432/registrations
 
 addons:
     apt:
