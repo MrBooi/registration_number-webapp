@@ -14,7 +14,9 @@ addons:
     apt:
     packages:
     - postgresql-server-dev-9.2
-    
+
  env:
+  - DB=postgres://coder:coder123@localhost:5432/registrationNumbers'
   global:
-  - PGPORT=5433   
+  - PGPORT=5433
+   
