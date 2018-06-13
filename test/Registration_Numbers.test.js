@@ -3,8 +3,16 @@ var assert = require('assert');
 const pg = require('pg');
 const Pool = pg.Pool;
 
+let useSSL = false;
+if (process.env.DATABASE_URL) {
+    useSSL = true;
+}
+
+const connectionString = process.env.DATABASE_URL || 'postgresql://coder:coder123@localhost:5432/registrationNumbers'
+
 const pool = new Pool({
-  connectionString: 'postgresql://coder:coder123@localhost:5432/registrationNumbers'
+    connectionString,
+    ssl: useSSL
 });
 const Registration = require('../Registration_Numbers');
 
