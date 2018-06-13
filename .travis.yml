@@ -1,16 +1,15 @@
 
 language: node_js
-before_sript:
-    - psql -c "CREATE USER coder WITH PASSWORD 'coder123';" -U postgres
+
 env:
-     - DB=coder://coder123@localhost:5432/registrations
+     - DB=postgresql://travis@localhost:5432/registrations
 node_js:  
         - "8.9.4"
         
 before_script:
   - psql -c 'create database registrations;' -U postgres
   - psql -c '\i registrationdb-script.sql;' -U postgres
-  - node ./Registration_Numbers.js -d coder://coder123@localhost:5432/registrations
+  - node ./Registration_Numbers.js -d postpresql://travis@localhost:5432/registrations
 
 addons:
     apt:
