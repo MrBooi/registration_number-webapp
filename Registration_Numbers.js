@@ -17,7 +17,7 @@ module.exports = function (pool) {
       return true;
     }
 
-    
+    return false;
   }
   // getmap function
   async function getRegistrationMap() {

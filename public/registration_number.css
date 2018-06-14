@@ -157,6 +157,9 @@ li{
   background-color: lightgreen;
 }
 
+.DisplayError h6{
+  color : orange;
+}
 
 
 @media screen  and (min-width: 360px){
