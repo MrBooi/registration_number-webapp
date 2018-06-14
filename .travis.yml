@@ -18,4 +18,5 @@ addons:
 
 
 
-   
+   Name : DATABASE_URL 
+   value : //postgres@localhost:5432/registrations
