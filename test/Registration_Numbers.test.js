@@ -82,8 +82,8 @@ describe('Filter by Town function', function () {
     await registration.setRegistration('CA 123-235');
     let filterbyCL = await registration.filterTowns('CL');
     assert.deepEqual(filterbyCL, [{'reg_number':'CL 123-234',
-    'town':4},{
-      'reg_number':'CL 123-235','town':4
+    'town':2},{
+      'reg_number':'CL 123-235','town':2
     }]);
   });
   it("Should filter by CJ and return all the registration numbers from Paarl", async function () {
@@ -92,8 +92,8 @@ describe('Filter by Town function', function () {
     await registration.setRegistration('CJ 123-001');
     await registration.setRegistration('CL 123-001');
     let filterbyCJ = await registration.filterTowns('CJ');
-    assert.deepEqual(filterbyCJ, [{'reg_number':'CJ 123-000','town':2},
-  {'reg_number':'CJ 123-001','town':2}]);
+    assert.deepEqual(filterbyCJ, [{'reg_number':'CJ 123-000','town':3},
+  {'reg_number':'CJ 123-001','town':3}]);
   });
 
   it("Should filter by CAW and return all the registration numbers from  George", async function () {
@@ -102,7 +102,7 @@ describe('Filter by Town function', function () {
     await registration.setRegistration('CJ 123-000');
     await registration.setRegistration('CJ 123-001');
     let filterbyCA = await registration.filterTowns('CAW');
-    assert.deepEqual(filterbyCA, [{'reg_number':'CAW 123-987','town':3}]);
+    assert.deepEqual(filterbyCA, [{'reg_number':'CAW 123-987','town':4}]);
   });
 
   it("Should filter by All and return all the registration numbers ", async function () {
@@ -113,15 +113,15 @@ describe('Filter by Town function', function () {
     let filterbyCA = await registration.filterTowns('All');
     assert.deepEqual(filterbyCA, [{
       "reg_number": "CAW 123-987",
-        "town": 3
+        "town": 4
       },
       {
         "reg_number": "CJ 123-000",
-        "town": 2
+        "town": 3
       },
       {
         "reg_number": "CJ 123-001",
-        "town": 2
+        "town": 3
       }]);
   });
 });
