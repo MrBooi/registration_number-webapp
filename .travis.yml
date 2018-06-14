@@ -8,6 +8,7 @@ node_js:
         
 before_script:
   - psql -c 'create database  registrations;' -U postgres
+  - psql -U postgres -d registrations -a -f registrationdb-script.sql
   - node ./Registration_Numbers.js -d postpresql://postgres@localhost:5432/registrations
 
 addons:
