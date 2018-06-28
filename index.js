@@ -75,7 +75,8 @@ app.get("/reg_number/:numberPlate", async function (req, res, next) {
         req.flash('info', "registration is succesfully added");
         
         }else{
-            req.flash('error', "registration numbers already exist");
+            let map = await registration_numbers.getMap;
+           map.indexOf(req.params.numberPlate) !=-1 ?  req.flash('error', "registration numbers already exist") : req.flash('error', "incorrect registration number")  ;
         }
         res.redirect('/');
        
@@ -87,14 +88,19 @@ app.get("/reg_number/:numberPlate", async function (req, res, next) {
 });
 
 app.post("/reg_number", async function (req, res, next) {
+    var numberPlate = req.body.enteredReg;
     try {
-        let numberPlate = req.body.enteredReg;
          let found = await registration_numbers.setRegistration(numberPlate);
         if (found) {
             await registration_numbers.getMap();
             req.flash('info', "registration is succesfully added");
         }else{
-          req.flash('error', "registration numbers already exist");
+            let map = await registration_numbers.getMap();
+            let findArray =[]
+            for (let i = 0; i < map.length; i++) {
+                findArray.push(map[i].reg_number)   
+            }
+            findArray.indexOf(numberPlate) !=-1 ?  req.flash('error', "registration numbers already exist") : req.flash('error', "incorrect registration number");
         }
         res.redirect('/');
 
